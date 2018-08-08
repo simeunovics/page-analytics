@@ -2,8 +2,6 @@ const axios = require('axios');
 const FAVICON_APP_URL =
   process.env.FAVICON_APP_URL ||
   'https://besticon-demo.herokuapp.com/allicons.json';
-const CORS_PROXY_URL =
-  process.env.CORS_PROXY_URL || 'https://cors-anywhere.herokuapp.com/';
 const PORT = process.env.PORT || 80;
 
 const express = require('express');
@@ -32,10 +30,8 @@ app.get('/', async (req, res) => {
     }
 
     try {
-      const { data } = await axios.get(`${CORS_PROXY_URL}${url}`);
-      const html = data;
-
-      title = html.match(/<title>(.*?)<\/title>/)[1];
+      const { data } = await axios.get(url);
+      title = data.match(/<title>(.*?)<\/title>/)[1];
     } catch (e) {
       console.error(e);
     }
