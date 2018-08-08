@@ -8,11 +8,10 @@
     "npm": "5.6.0"
   },
   "scripts": {
-    "start": "node index.js",
-    "deploy": "git push heroku master"
+    "start": "node index.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Simo Simeunovic",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
