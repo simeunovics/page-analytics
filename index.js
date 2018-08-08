@@ -1,5 +1,6 @@
 const axios = require('axios');
 const FAVICON_APP_URL = 'https://besticon-demo.herokuapp.com/allicons.json';
+const PORT = process.env.PORT || 80;
 
 const express = require('express');
 const app = express();
@@ -30,4 +31,4 @@ app.get('/', async (req, res) => {
   }
 });
 
-app.listen(8080, () => console.log('Example app listening on port 8080!'));
+app.listen(PORT, () => console.info(`App listening on port ${PORT}!`));
