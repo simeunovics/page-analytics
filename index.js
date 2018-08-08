@@ -16,10 +16,8 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
   try {
     const url = req.query.url;
-
     const { data } = await axios.get(`${FAVICON_APP_URL}?url=${url}`);
-
-    console.debug(url, icons);
+    console.info(data, url);
 
     if (!data) {
       return res.status(404);
