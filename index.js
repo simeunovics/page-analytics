@@ -24,7 +24,7 @@ app.get('/', async (req, res) => {
       return res.status(404);
     }
 
-    return res.json({ data });
+    return res.json(data);
   } catch (e) {
     console.error(e);
     res.status(400).json({ error: e.message });
