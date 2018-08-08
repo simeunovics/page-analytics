@@ -20,7 +20,7 @@ app.get('/', async (req, res) => {
   try {
     const url = req.query.url;
     let favicons = {};
-    let title = {};
+    let title = '';
 
     try {
       const { data } = await axios.get(`${FAVICON_APP_URL}?url=${url}`);
