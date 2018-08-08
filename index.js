@@ -1,5 +1,9 @@
 const axios = require('axios');
-const FAVICON_APP_URL = 'https://besticon-demo.herokuapp.com/allicons.json';
+const FAVICON_APP_URL =
+  process.env.FAVICON_APP_URL ||
+  'https://besticon-demo.herokuapp.com/allicons.json';
+const CORS_PROXY_URL =
+  process.env.CORS_PROXY_URL || 'https://cors-anywhere.herokuapp.com/';
 const PORT = process.env.PORT || 80;
 
 const express = require('express');
@@ -17,14 +21,34 @@ app.use((req, res, next) => {
 app.get('/', async (req, res) => {
   try {
     const url = req.query.url;
-    const { data } = await axios.get(`${FAVICON_APP_URL}?url=${url}`);
-    console.info(data, url);
+    let favicons = {};
+    let title = {};
 
-    if (!data) {
-      return res.status(404);
+    try {
+      const { data } = await axios.get(`${FAVICON_APP_URL}?url=${url}`);
+      favicons = data;
+    } catch (e) {
+      console.error(e);
     }
 
-    return res.json(data);
+    try {
+      const { data } = await axios.get(`${CORS_PROXY_URL}${url}`);
+      const html = data;
+
+      title = html.match(/<title>(.*?)<\/title>/)[1];
+    } catch (e) {
+      console.error(e);
+    }
+
+    console.info(url, {
+      favicons,
+      title,
+    });
+
+    return res.json({
+      favicons,
+      title,
+    });
   } catch (e) {
     console.error(e);
     res.status(400).json({ error: e.message });
